@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dream Centre Marks Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #f9f9f9;
+    }
+    .content {
+      padding: 20px;
+      flex-grow: 1;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+    #output {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    footer {
+      position: relative;
+      text-align: center;
+      color: gray;
+      font-weight: bold;
+      padding: 60px 20px;
+      background-image: url('https://ibb.co/1Y6CktyM');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Marks Calculator</h1>
+
+    <label for="totalQ">Total Questions:</label>
+    <input type="number" id="totalQ" />
+
+    <label for="totalM">Total Marks:</label>
+    <input type="number" id="totalM" />
+
+    <label for="correct">Correct Answers:</label>
+    <input type="number" id="correct" />
+
+    <label for="wrong">Wrong Answers:</label>
+    <input type="number" id="wrong" />
+
+    <label for="neg">Negative Marking (e.g. 0.33):</label>
+    <input step="0.01" type="number" id="neg" />
+
+    <button onclick="calc()">Calculate</button>
+
+    <div id="output"></div>
+  </div>
+
+  <footer>
+    DREAM CENTRE
+  </footer>
+
+  <script>
+    function calc() {
+      var tq = parseFloat(document.getElementById('totalQ').value);
+      var tm = parseFloat(document.getElementById('totalM').value);
+      var ca = parseFloat(document.getElementById('correct').value);
+      var wa = parseFloat(document.getElementById('wrong').value);
+      var nm = parseFloat(document.getElementById('neg').value);
+
+      if (isNaN(tq) || isNaN(tm) || isNaN(ca) || isNaN(wa) || isNaN(nm)) {
+        document.getElementById('output').innerText = "Please fill all fields.";
+        return;
+      }
+      if (ca + wa > tq) {
+        document.getElementById('output').innerText = "Sum of correct and wrong answers cannot exceed total questions.";
+        return;
+      }
+
+      var mpq = tm / tq;
+      var gain = ca * mpq;
+      var deduct = wa * mpq * nm;
+      var finalScore = gain - deduct;
+
+      document.getElementById('output').innerText = "Score: " + finalScore.toFixed(2) + " / " + tm;
+    }
+  </script>
+</body>
+</html>
